@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
+import os
 
 app = FastAPI()
 
@@ -14,12 +15,16 @@ app.add_middleware(
 
 # Inisialisasi dictionary untuk menyimpan data lolos {nrp: nama}
 # Ini akan jauh lebih efisien untuk pencarian
+
+# Cari lokasi file relatif terhadap main.py
+current_dir = os.path.dirname(os.path.abspath(__file__))
+excel_path = os.path.join(current_dir, "Lolos Staff.xlsx")
 data_lolos = {}
 
 def load_data():
     global data_lolos
     try:
-        df_raw = pd.read_excel("backend/Lolos Staff.xlsx")
+        df_raw = pd.read_excel(excel_path, header=None)
         
         # Asumsi kolom pertama adalah data gabungan "id,nama,posisi,status"
         # Kita perlu memisahkan dan menyimpan id serta nama
