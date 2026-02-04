@@ -20,7 +20,7 @@ const App = () => {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     try {
-      const response = await fetch(`/api/cek-penerimaan/${nrp.trim()}`);
+      const response = await fetch(`/api?nrp=${nrp.trim()}`)
       
       if (!response.ok) {
         throw new Error('Data tidak ditemukan');

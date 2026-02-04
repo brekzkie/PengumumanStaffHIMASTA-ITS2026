@@ -1,69 +1,58 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
+from fastapi.responses import JSONResponse
 import os
 
-app = FastAPI()
+def handler(request, context):
+    query = request.get("query", {})
+    nrp = query.get("nrp")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+    if not nrp:
+        return JSONResponse(
+            status_code=400,
+            content={"message": "NRP wajib diisi"}
+        )
 
-# Inisialisasi dictionary untuk menyimpan data lolos {nrp: nama}
-# Ini akan jauh lebih efisien untuk pencarian
-
-# Cari lokasi file relatif terhadap main.py
-current_dir = os.path.dirname(os.path.abspath(__file__))
-excel_path = os.path.join(current_dir, "Lolos_Staff.xlsx")
-data_lolos = {}
-
-def load_data():
-    global data_lolos
     try:
-        df_raw = pd.read_excel("api/Lolos_Staff.xlsx", header=None)
-        
-        # Asumsi kolom pertama adalah data gabungan "id,nama,posisi,status"
-        # Kita perlu memisahkan dan menyimpan id serta nama
-        
-        temp_data = {}
-        for row_str in df_raw.iloc[:, 0].astype(str):
-            parts = row_str.split(',')
-            if len(parts) >= 2: # Pastikan ada id dan nama
-                nrp_id = parts[0].strip()
-                nama_lengkap = parts[1].strip()
-                temp_data[nrp_id] = nama_lengkap
-            
-        data_lolos = temp_data
-        print(f"✅ Berhasil memuat {len(data_lolos)} data calon staff.")
-    except Exception as e:
-        print(f"❌ Error saat memuat data Excel: {e}")
+        base_dir = os.path.dirname(__file__)
+        excel_path = os.path.join(base_dir, "Lolos_Staff.xlsx")
 
-# Load saat startup
-load_data()
+        # Baca semua baris sebagai string
+        df = pd.read_excel(excel_path, header=None)
 
-@app.get("/cek-penerimaan/{nrp}")
-async def cek_penerimaan_api(nrp: str):
-    if not data_lolos:
-        raise HTTPException(status_code=500, detail="Data staff belum siap atau gagal dimuat.")
+        data = {}
 
-    nrp_stripped = nrp.strip()
-    if nrp_stripped in data_lolos:
+        for i, row in df.iterrows():
+            row_str = str(row[0])
+
+            # skip header
+            if row_str.lower().startswith("id,"):
+                continue
+
+            parts = row_str.split(",")
+
+            if len(parts) >= 4:
+                id_nrp = parts[0].strip()
+                nama = parts[1].strip()
+                status = parts[3].strip().lower()
+
+                if status == "lolos":
+                    data[id_nrp] = nama
+
+        if nrp in data:
+            return {
+                "nrp": nrp,
+                "lolos": True,
+                "nama": data[nrp]
+            }
+
         return {
-            "nrp": nrp_stripped,
-            "lolos": True,
-            "nama": data_lolos[nrp_stripped] # Kirim nama jika lolos
-        }
-    else:
-        return {
-            "nrp": nrp_stripped,
+            "nrp": nrp,
             "lolos": False,
-            "nama": None # Atau string kosong, sesuai kebutuhan frontend
+            "nama": None
         }
 
-@app.get("/")
-def home():
-    return {"status": "API is running", "total_data_lolos": len(data_lolos)}
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(e)}
+        )
