@@ -1,0 +1,23 @@
+[
+  { "nrp": "202601", "nama": "Budi Santoso", "posisi": "Frontend Developer", "lolos": true },
+  { "nrp": "202602", "nama": "Siti Aminah", "posisi": "UI/UX Designer", "lolos": true },
+  { "nrp": "202603", "nama": "Rizky Pratama", "posisi": "Backend Developer", "lolos": true },
+  { "nrp": "202604", "nama": "Dewi Lestari", "posisi": "Social Media Specialist", "lolos": true },
+  { "nrp": "202605", "nama": "Ahmad Fauzi", "posisi": "Data Analyst", "lolos": true },
+  { "nrp": "202606", "nama": "Lani Cahyani", "posisi": "Project Manager", "lolos": true },
+  { "nrp": "202607", "nama": "Andi Wijaya", "posisi": "Quality Assurance", "lolos": true },
+  { "nrp": "202608", "nama": "Siska Putri", "posisi": "Copywriter", "lolos": true },
+  { "nrp": "202609", "nama": "Bambang Hermawan", "posisi": "DevOps Engineer", "lolos": true },
+  { "nrp": "202610", "nama": "Eka Sari", "posisi": "Public Relations", "lolos": true },
+  { "nrp": "202611", "nama": "Fajar Nugraha", "posisi": "Mobile Developer", "lolos": true },
+  { "nrp": "202612", "nama": "Gita Permata", "posisi": "Product Owner", "lolos": true },
+  { "nrp": "202613", "nama": "Hendra Kurnia", "posisi": "Security Engineer", "lolos": true },
+  { "nrp": "202614", "nama": "Indah Wahyuni", "posisi": "Human Resources", "lolos": true },
+  { "nrp": "202615", "nama": "Joko Susilo", "posisi": "System Administrator", "lolos": true },
+  { "nrp": "202616", "nama": "Kiki Amalia", "posisi": "Content Creator", "lolos": true },
+  { "nrp": "202617", "nama": "Lucky Hakim", "posisi": "SEO Specialist", "lolos": true },
+  { "nrp": "202618", "nama": "Maya Sophia", "posisi": "Finance Officer", "lolos": true },
+  { "nrp": "202619", "nama": "Nanda Saputra", "posisi": "Video Editor", "lolos": true },
+  { "nrp": "202620", "nama": "Oki Setiawan", "posisi": "Legal Counsel", "lolos": true },
+  { "nrp": "5052231003", "nama": "Hieronimus Bryant", "posisi": "Data Scientist", "lolos": true }
+]
