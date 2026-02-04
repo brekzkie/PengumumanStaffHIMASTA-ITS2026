@@ -18,13 +18,13 @@ app.add_middleware(
 
 # Cari lokasi file relatif terhadap main.py
 current_dir = os.path.dirname(os.path.abspath(__file__))
-excel_path = os.path.join(current_dir, "Lolos Staff.xlsx")
+excel_path = os.path.join(current_dir, "Lolos_Staff.xlsx")
 data_lolos = {}
 
 def load_data():
     global data_lolos
     try:
-        df_raw = pd.read_excel("backend/Lolos Staff.xlsx", header=None)
+        df_raw = pd.read_excel("api/Lolos_Staff.xlsx", header=None)
         
         # Asumsi kolom pertama adalah data gabungan "id,nama,posisi,status"
         # Kita perlu memisahkan dan menyimpan id serta nama
