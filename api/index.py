@@ -1,58 +1,37 @@
+from fastapi import FastAPI, HTTPException
 import pandas as pd
-from fastapi.responses import JSONResponse
 import os
 
-def handler(request, context):
-    query = request.get("query", {})
-    nrp = query.get("nrp")
+app = FastAPI()
 
+# Path absolut agar Vercel tidak bingung mencari file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+EXCEL_PATH = os.path.join(BASE_DIR, "Lolos Staff.xlsx")
+
+@app.get("/api")
+async def cek_penerimaan(nrp: str = None):
     if not nrp:
-        return JSONResponse(
-            status_code=400,
-            content={"message": "NRP wajib diisi"}
-        )
-
+        return {"error": "NRP tidak boleh kosong"}
+    
     try:
-        base_dir = os.path.dirname(__file__)
-        excel_path = os.path.join(base_dir, "Lolos_Staff.xlsx")
-
-        # Baca semua baris sebagai string
-        df = pd.read_excel(excel_path, header=None)
-
-        data = {}
-
-        for i, row in df.iterrows():
-            row_str = str(row[0])
-
-            # skip header
-            if row_str.lower().startswith("id,"):
-                continue
-
-            parts = row_str.split(",")
-
-            if len(parts) >= 4:
-                id_nrp = parts[0].strip()
-                nama = parts[1].strip()
-                status = parts[3].strip().lower()
-
-                if status == "lolos":
-                    data[id_nrp] = nama
-
-        if nrp in data:
+        # Membaca file excel
+        df = pd.read_excel(EXCEL_PATH)
+        
+        # Cari data berdasarkan kolom 'NRP' (pastikan di Excel kolomnya bernama 'NRP')
+        result = df[df['id'].astype(str) == str(nrp)]
+        
+        if not result.empty:
+            row = result.iloc[0]
             return {
-                "nrp": nrp,
+                "nama": str(row['nama']), # Pastikan kolom 'Nama' ada di Excel
                 "lolos": True,
-                "nama": data[nrp]
+                "nrp": str(nrp)
             }
-
-        return {
-            "nrp": nrp,
-            "lolos": False,
-            "nama": None
-        }
-
+        else:
+            return {
+                "nama": "Tidak Ditemukan",
+                "lolos": False,
+                "nrp": str(nrp)
+            }
     except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(e)}
-        )
+        return {"error": str(e)}
