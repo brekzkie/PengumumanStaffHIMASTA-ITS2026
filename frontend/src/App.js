@@ -20,7 +20,7 @@ const App = () => {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     try {
-      const response = await fetch(`https://api-himasta.vercel.app/cek-penerimaan/${nrp.trim()}`);
+      const response = await fetch(`/api/cek-penerimaan/${nrp.trim()}`);
       
       if (!response.ok) {
         throw new Error('Data tidak ditemukan');
