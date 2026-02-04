@@ -19,7 +19,7 @@ data_lolos = {}
 def load_data():
     global data_lolos
     try:
-        df_raw = pd.read_excel("Lolos Staff.xlsx")
+        df_raw = pd.read_excel("backend/Lolos Staff.xlsx")
         
         # Asumsi kolom pertama adalah data gabungan "id,nama,posisi,status"
         # Kita perlu memisahkan dan menyimpan id serta nama
