@@ -83,7 +83,7 @@ const App = () => {
                 <div className="msg-content">
                   <h3 className="congrats">🎊 SELAMAT! 🎊</h3>
                   <h2 className="name-display">{result.nama}</h2>
-                  <p className="nrp-info">Posisi: <strong>{result.posisi}</strong></p>
+                  <p className="nrp-info">NRP: <strong>{result.nrp}</strong></p>
                   <p className="caption">Selamat bergabung di Resonansi Sinergis HIMASTA-ITS! 🚀</p>
                 </div>
               ) : (
@@ -92,7 +92,6 @@ const App = () => {
                   <p className="caption">NRP {result.nrp} belum terdaftar sebagai staff periode ini. Jangan menyerah!</p>
                 </div>
               )}
-              <span className="timestamp">⏰ Dicek pada: {result.time}</span>
             </div>
           )}
         </div>
