@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 import logoHimasta from './assets/logo.png';
-import backgroundImage from './assets/background.jpg';
 import dataStaff from './data_lolos.json';
 
 const App = () => {
